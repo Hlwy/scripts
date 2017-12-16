@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd Libraries
+cd ~/Libraries
 sudo rm -rf PIGPIO
 wget abyz.co.uk/rpi/pigpio/pigpio.tar
 tar xf pigpio.tar
