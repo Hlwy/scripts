@@ -5,8 +5,8 @@ if [ "$EUID" -ne 0 ]
 	exit
 fi
 
-sudo systemctl stop dnsmasq
-sudo systemctl stop hostapd
+systemctl stop dnsmasq
+systemctl stop hostapd
 
 ## Read in user defined inputs
 read -p "Enter Name for Access Point: "  nameAp
@@ -69,3 +69,7 @@ wpa_key_mgmt=WPA-PSK
 wpa_pairwise=CCMP
 rsn_pairwise=CCMP
 EOF
+
+
+service hostapd start
+service dnsmasq start
