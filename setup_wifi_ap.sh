@@ -19,10 +19,8 @@ read -s -p "Enter password for Access Point: "  pwdAp
 
 # Disable wifi interface from being hndled by DHCP
 cat > /etc/dhcpcd.conf <<EOF
-
 ## Added by setup_wifi_ap.sh script ####
 denyinterfaces wlan1
-
 EOF
 
 cat >> /etc/network/interfaces <<EOF
