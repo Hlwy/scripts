@@ -7,4 +7,4 @@ tar xf pigpio.tar
 cd PIGPIO
 make -j4
 sudo make install
-rm pigpio.zip
+rm pigpio.tar
