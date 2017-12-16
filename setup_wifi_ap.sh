@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# if [ "$EUID" -ne 0 ]
-# 	then echo "Must be root"
-# 	exit
-# fi
+if [ "$EUID" -ne 0 ]
+	then echo "Must be root"
+	exit
+fi
 
 sudo systemctl stop dnsmasq
 sudo systemctl stop hostapd
