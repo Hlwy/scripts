@@ -13,8 +13,7 @@ sudo apt-get install -y libatlas-base-dev gfortran
 # Python:
 sudo apt-get install -y python2.7-dev python-dev python-tk python-numpy python3-dev python3-tk python3-numpy
 # pip install numpy
-pip install gevent
-pip install gunicorn
+pip install gevent gunicorn futures Flask
 
 # GUI
 sudo apt-get install -y libgtkglext1-dev libvtk6-dev
