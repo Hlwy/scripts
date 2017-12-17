@@ -10,7 +10,7 @@ unzip opencv.zip
 # unzip opencv_contrib.zip
 
 # Compile OpenCV
-cd ~/opencv-3.3.1/
+cd ~/Libraries/opencv-3.3.1/
 mkdir build
 cd build
 cmake -D CMAKE_BUILD_TYPE=RELEASE \
