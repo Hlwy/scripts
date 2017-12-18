@@ -57,22 +57,22 @@ sudo apt-get install -y hostapd isc-dhcp-server
 read -p "Press Enter when ready to continue...."
 
 # Install modified hostapd binary (Thanks to jenssegers)
-sudo sh ./install_jenssegers_hostapd.sh
+sudo ./install_jenssegers_hostapd.sh
 # Wait till user feels okay continuing
 read -p "Press Enter when ready to continue...."
 
 # Configure DHCP
-sudo sh ./config_dhcp.sh $apIp $apIface
+sudo ./config_dhcp.sh $apIp $apIface
 # Wait till user feels okay continuing
 read -p "Press Enter when ready to continue...."
 
 # Configure Interfaces
-sudo sh ./config_network_interfaces.sh $apIp $apIface
+sudo ./config_network_interfaces.sh $apIp $apIface
 # Wait till user feels okay continuing
 read -p "Press Enter when ready to continue...."
 
 # Configure Hostapd config
-sudo sh ./config_hostapd.sh $apName $apIface
+sudo ./config_hostapd.sh $apName $apIface
 # Wait till user feels okay continuing
 read -p "Press Enter when ready to continue...."
 
