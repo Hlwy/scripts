@@ -6,10 +6,10 @@ fi
 
 ## Read in user defined inputs
 read -p "Enter Name for Access Point: "  apName
-echo "Access Point Name: $apName"
+# echo "Access Point Name: $apName"
 
-read -s -p "Enter Interface for the Access Point: "  apIface
-echo "Access Point Interface: $apIface"
+read -p "Enter Interface for the Access Point: "  apIface
+# echo "Access Point Interface: $apIface"
 
 # Create hostapd.conf backup
 mv /etc/hostapd/hostapd.conf /etc/hostapd/hostapd.conf.backup

@@ -26,7 +26,7 @@ cp /etc/dhcp/dhcpd.conf /etc/dhcp/dhcpd.conf.backup
 sed -i -- 's/option domain-name "example.org";/#option domain-name "example.org";/g' /etc/dhcp/dhcpd.conf
 sed -i -- 's/option domain-name-servers ns1.example.org, ns2.example.org;/#option domain-name-servers ns1.example.org, ns2.example.org;/g' /etc/dhcp/dhcpd.conf
 sed -i -- 's/#authoritative;/authoritative;/g' /etc/dhcp/dhcpd.conf
-sed -i -- 's/INTERFACES=""/INTERFACES="${apIface}"/g' /etc/default/isc-dhcp-server
+sed -i -- "s/INTERFACES=\"\"/INTERFACES=\"${apIface}\"/g" /etc/default/isc-dhcp-server
 
 cat >> /etc/dhcp/dhcpd.conf <<EOF
 

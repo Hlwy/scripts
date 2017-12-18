@@ -6,13 +6,13 @@ fi
 
 ## Read in user defined inputs
 read -p "Enter Name for Access Point: "  apName
-echo "Access Point Name: $apName"
+# echo "Access Point Name: $apName"
 
 read -p "Enter Static IP address assigned to Access Point: "  apIp
-echo "Access Point IP: $apIp"
+# echo "Access Point IP: $apIp"
 
 read -p "Enter Interface for the Access Point: "  apIface
-echo "Access Point Interface: $apIface"
+# echo "Access Point Interface: $apIface"
 
 ip1="$(echo $apIp | cut -d '.' -f 1)"
 ip2="$(echo $apIp | cut -d '.' -f 2)"
@@ -22,8 +22,8 @@ ip4="$(echo $apIp | cut -d '.' -f 4)"
 sudo ifdown $apIface
 
 # Remove any previous mention of interface
-sed -i -- 's/allow-hotplug $apIface//g' /etc/network/interfaces
-sed -i -- 's/iface $apIface inet manual//g' /etc/network/interfaces
+sed -i -- "s/allow-hotplug $apIface//g" /etc/network/interfaces
+sed -i -- "s/iface $apIface inet manual//g" /etc/network/interfaces
 sed -i -- 's/    wpa-conf \/etc\/wpa_supplicant\/wpa_supplicant.conf//g' /etc/network/interfaces
 
 cat >> /etc/network/interfaces <<EOF
@@ -35,3 +35,5 @@ iface $apIface inet static
 	netmask 255.255.255.0
 
 EOF
+
+sudo ifup $apIface
