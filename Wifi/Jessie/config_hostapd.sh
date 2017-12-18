@@ -1,15 +1,41 @@
 #!/bin/bash
+
+# Check for sudo permissions
 if [ "$EUID" -ne 0 ]
 	then echo "Must be root"
 	exit
 fi
 
-## Read in user defined inputs
-read -p "Enter Name for Access Point: "  apName
-# echo "Access Point Name: $apName"
+# Look for help sign
+if [ "$1" == "-h" ]; then
+  echo "Usage: $0 '$ap_name $interface'"
+  exit 0
+fi
 
-read -p "Enter Interface for the Access Point: "  apIface
-# echo "Access Point Interface: $apIface"
+# check for required argument (assigned AP SSID)
+if [[ $# -lt 1 ]];
+	then echo "You need to pass a SSID name to assign to your access point!"
+	echo "Usage:"
+	echo "sudo $0 desired_ssid [AP_interface]"
+	exit
+fi
+
+# Store arguments for later usage
+apName="$1"
+apIface="wlan1"
+
+# check for optional argument (assigned interface for AP)
+if [[ $# -eq 2 ]]; then
+	apIface=$2
+fi
+
+# Echo Inputs for debugging
+echo "Access Point Name: $apName"
+echo "Access Point Interface: $apIface"
+
+## Read in user defined inputs
+# read -p "Enter Name for Access Point: "  apName
+# read -p "Enter Interface for the Access Point: "  apIface
 
 # Create hostapd.conf backup
 mv /etc/hostapd/hostapd.conf /etc/hostapd/hostapd.conf.backup
@@ -29,7 +55,6 @@ auth_algs=1
 ignore_broadcast_ssid=0
 channel=7
 EOF
-
 
 # Reload hostapd
 sudo systemctl daemon-reload

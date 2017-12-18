@@ -1,6 +1,5 @@
 #!/bin/bash
 
-sudo apt-get install -y hostapd
 sudo apt-get autoremove hostapd
 
 cd ~/Libraries

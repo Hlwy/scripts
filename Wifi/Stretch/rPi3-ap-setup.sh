@@ -1,25 +1,32 @@
 #!/bin/bash
-#
-# This version uses September 2016 rpi jessie image, please use this image
-#
 
+# Check for sudo permissions
 if [ "$EUID" -ne 0 ]
 	then echo "Must be root"
 	exit
 fi
 
+# Look for help sign
+if [ "$1" == "-h" ]; then
+  echo "Usage: $0 '$ip $interface'"
+  exit 0
+fi
+
+# check for required argument (assigned static IP address)
 if [[ $# -lt 1 ]];
-	then echo "You need to pass a password!"
+	then echo "You need to pass a static IP address to assign to your access point!"
 	echo "Usage:"
-	echo "sudo $0 yourChosenPassword [apName]"
+	echo "sudo $0 desired_ip [AP_interface]"
 	exit
 fi
 
-APPASS="$1"
-APSSID="rPi3"
+# Store arguments for later usage
+apIp="$1"
+apIface="wlan1"
 
+# check for optional argument (assigned interface for AP)
 if [[ $# -eq 2 ]]; then
-	APSSID=$2
+	apIface=$2
 fi
 
 apt-get remove --purge hostapd -y
