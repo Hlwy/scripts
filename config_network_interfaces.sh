@@ -11,7 +11,7 @@ echo "Access Point Name: $apName"
 read -p "Enter Static IP address assigned to Access Point: "  apIp
 echo "Access Point IP: $apIp"
 
-read -s -p "Enter Interface for the Access Point: "  apIface
+read -p "Enter Interface for the Access Point: "  apIface
 echo "Access Point Interface: $apIface"
 
 ip1="$(echo $apIp | cut -d '.' -f 1)"
