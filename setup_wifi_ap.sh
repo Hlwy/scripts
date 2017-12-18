@@ -48,26 +48,10 @@ usually wlan1
      dhcp-range=192.168.1.2,192.168.1.50,255.255.255.0,24h
 EOF
 
-## Configure hostapd
-sed -i -- 's/#DAEMON_CONF=""/DAEMON_CONF="\/etc\/hostapd\/hostapd.conf"/g' /etc/default/hostapd
-
-cat > /etc/hostapd/hostapd.conf <<EOF
-interface=wlan1
-ssid=$nameAp
-driver=r8188eu
-hw_mode=g
-wmm_enabled=0
-macaddr_acl=0
-ignore_broadcast_ssid=0
-channel=7
-auth_algs=1
-wpa_passphrase=$pwdAp
-wpa=2
-wpa_key_mgmt=WPA-PSK
-wpa_pairwise=CCMP
-rsn_pairwise=CCMP
-EOF
-
 
 service hostapd start
 service dnsmasq start
+
+# Finalize setup (reboot ready)
+sudo update-rc.d hostapd enable
+sudo update-rc.d isc-dhcp-server enable
