@@ -4,15 +4,21 @@ if [ "$EUID" -ne 0 ]
 	exit
 fi
 
+sudo apt install isc-dhcp-server
+
 # Ask for user-customized interface name
 read -s -p "Enter Interface for the Access Point: "  apIface
 echo "Access Point Interface: $apIface"
 
-read -p "Enter Static IP address channel (i.e XXX.XXX.some-number.XXX) of Access Point: "  apSubChan
-echo "Access Point IP: $apSubChan"
+read -p "Enter Static IP address assigned to Access Point: "  apIp
+echo "Access Point IP: $apIp"
 
-read -p "Enter Static IP address end point (i.e XXX.XXX.X.some-number) of Access Point: "  apEndIp
-echo "Access Point IP: $apEndIp"
+# Break down user-inputted IP address to 4 parts for dhcp customization later on in script
+ip1="$(echo $apIp | cut -d '.' -f 1)"
+ip2="$(echo $apIp | cut -d '.' -f 2)"
+ip3="$(echo $apIp | cut -d '.' -f 3)"
+ip4="$(echo $apIp | cut -d '.' -f 4)"
+echo "Test Grab: $ip1 $ip2 $ip3 $ip4"
 
 # Create hostapd.conf backup
 cp /etc/dhcp/dhcpd.conf /etc/dhcp/dhcpd.conf.backup
@@ -25,10 +31,10 @@ sed -i -- 's/INTERFACES=""/INTERFACES="$apIface"/g' /etc/default/isc-dhcp-server
 
 cat >> /etc/dhcp/dhcpd.conf <<EOF
 
-subnet 192.168.$apSubChan.0 netmask 255.255.255.0 {
-range 192.168.$apSubChan.50 192.168.$apSubChan.100;
-option broadcast-address 192.168.$apSubChan.255;
-option routers 192.168.$apSubChan.$apEndIp;
+subnet $ip1.$ip2.$ip3.0 netmask 255.255.255.0 {
+range $ip1.$ip2.$ip3.50 $ip1.$ip2.$ip3.100;
+option broadcast-address $ip1.$ip2.$ip3.255;
+option routers $apIp;
 default-lease-time 600;
 max-lease-time 7200;
 option domain-name "local";

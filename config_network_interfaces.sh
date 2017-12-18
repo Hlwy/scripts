@@ -18,21 +18,20 @@ ip1="$(echo $apIp | cut -d '.' -f 1)"
 ip2="$(echo $apIp | cut -d '.' -f 2)"
 ip3="$(echo $apIp | cut -d '.' -f 3)"
 ip4="$(echo $apIp | cut -d '.' -f 4)"
-echo "Test Grab: $ip1 $ip2 $ip3 $ip4"
 
 sudo ifdown $apIface
 
 # Remove any previous mention of interface
-# sed -i -- 's/allow-hotplug $apIface//g' /etc/network/interfaces
+sed -i -- 's/allow-hotplug $apIface//g' /etc/network/interfaces
 sed -i -- 's/iface $apIface inet manual//g' /etc/network/interfaces
 sed -i -- 's/    wpa-conf \/etc\/wpa_supplicant\/wpa_supplicant.conf//g' /etc/network/interfaces
 
-# cat >> /etc/network/interfaces <<EOF
-#
-# ## Added by setup_wifi_ap.sh script ####
-# allow-hotplug $apIface
-# iface $apIface inet static
-# 	address $ipAp
-# 	netmask 255.255.255.0
-#
-# EOF
+cat >> /etc/network/interfaces <<EOF
+
+## Added by setup_wifi_ap.sh script ####
+allow-hotplug $apIface
+iface $apIface inet static
+	address $ipAp
+	netmask 255.255.255.0
+
+EOF
