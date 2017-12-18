@@ -8,10 +8,10 @@ sudo apt install isc-dhcp-server
 
 # Ask for user-customized interface name
 read -p "Enter Interface for the Access Point: "  apIface
-echo "Access Point Interface: $apIface"
+# echo "Access Point Interface: $apIface"
 
 read -p "Enter Static IP address assigned to Access Point: "  apIp
-echo "Access Point IP: $apIp"
+# echo "Access Point IP: $apIp"
 
 # Break down user-inputted IP address to 4 parts for dhcp customization later on in script
 ip1="$(echo $apIp | cut -d '.' -f 1)"
@@ -26,7 +26,7 @@ cp /etc/dhcp/dhcpd.conf /etc/dhcp/dhcpd.conf.backup
 sed -i -- 's/option domain-name "example.org";/#option domain-name "example.org";/g' /etc/dhcp/dhcpd.conf
 sed -i -- 's/option domain-name-servers ns1.example.org, ns2.example.org;/#option domain-name-servers ns1.example.org, ns2.example.org;/g' /etc/dhcp/dhcpd.conf
 sed -i -- 's/#authoritative;/authoritative;/g' /etc/dhcp/dhcpd.conf
-sed -i -- 's/INTERFACES=""/INTERFACES="$apIface"/g' /etc/default/isc-dhcp-server
+sed -i -- 's/INTERFACES=""/INTERFACES="${apIface}"/g' /etc/default/isc-dhcp-server
 
 cat >> /etc/dhcp/dhcpd.conf <<EOF
 
