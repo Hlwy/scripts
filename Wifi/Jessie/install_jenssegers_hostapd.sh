@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sudo apt-get autoremove hostapd
+sudo apt-get autoremove -y hostapd
 
 cd /home/hunter/Libraries
 wget https://github.com/jenssegers/RTL8188-hostapd/archive/v2.0.tar.gz

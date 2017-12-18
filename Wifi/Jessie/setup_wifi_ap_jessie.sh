@@ -47,34 +47,38 @@ echo "Access Point Interface: $apIface"
 sh ./install_rtl8188_driver.sh
 
 # Wait till user feels okay continuing
-read -p "Press Enter when ready to continue...."
+# read -p "Press Enter when ready to continue...."
 
 # Install System dependencies
 sudo apt update
 sudo apt-get install -y hostapd isc-dhcp-server
 
 # Wait till user feels okay continuing
-read -p "Press Enter when ready to continue...."
+# read -p "Press Enter when ready to continue...."
 
 # Install modified hostapd binary (Thanks to jenssegers)
 sudo ./install_jenssegers_hostapd.sh
+
 # Wait till user feels okay continuing
-read -p "Press Enter when ready to continue...."
+# read -p "Press Enter when ready to continue...."
 
 # Configure DHCP
 sudo ./config_dhcp.sh $apIp $apIface
+
 # Wait till user feels okay continuing
-read -p "Press Enter when ready to continue...."
+# read -p "Press Enter when ready to continue...."
 
 # Configure Interfaces
 sudo ./config_network_interfaces.sh $apIp $apIface
+
 # Wait till user feels okay continuing
-read -p "Press Enter when ready to continue...."
+# read -p "Press Enter when ready to continue...."
 
 # Configure Hostapd config
 sudo ./config_hostapd.sh $apName $apIface
+
 # Wait till user feels okay continuing
-read -p "Press Enter when ready to continue...."
+# read -p "Press Enter when ready to continue...."
 
 # Configure IP Routing
 sed -i -- 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/g' /etc/sysctl.conf

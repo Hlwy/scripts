@@ -38,7 +38,7 @@ echo "Access Point Interface: $apIface"
 # read -p "Enter Interface for the Access Point: "  apIface
 
 # Install DHCP server if not already installed
-sudo apt install isc-dhcp-server
+sudo apt install -y isc-dhcp-server
 
 # Break down user-inputted IP address to 4 parts for dhcp customization later on in script
 ip1="$(echo $apIp | cut -d '.' -f 1)"
