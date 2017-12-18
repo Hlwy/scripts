@@ -43,6 +43,9 @@ ip4="$(echo $apIp | cut -d '.' -f 4)"
 
 sudo ifdown $apIface
 
+# Create a backup
+cp /etc/network/interfaces /etc/network/interfaces.backup
+
 # Remove any previous mention of interface
 sed -i -- "s/allow-hotplug $apIface//g" /etc/network/interfaces
 sed -i -- "s/iface $apIface inet manual//g" /etc/network/interfaces
@@ -55,6 +58,8 @@ allow-hotplug $apIface
 iface $apIface inet static
 	address $apIp
 	netmask 255.255.255.0
+
+pre-up iptables-restore < /etc/iptables.ipv4.nat
 
 EOF
 

@@ -85,8 +85,3 @@ sudo iptables -A FORWARD -i eth0 -o wlan0 -m state --state RELATED,ESTABLISHED -
 sudo iptables -A FORWARD -i wlan0 -o eth0 -j ACCEPT
 
 sudo sh -c "iptables-save > /etc/iptables.ipv4.nat"
-
-cat > /etc/network/interfaces <<EOF
-
-pre-up iptables-restore < /etc/iptables.ipv4.nat
-EOF
