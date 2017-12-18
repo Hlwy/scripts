@@ -38,4 +38,7 @@ sudo apt install -y openjdk-8-jre
 sudo apt-get install -y doxygen
 
 # Install Python Dependencies
-pip install gevent futures Flask
+sudo pip install gevent --upgrade
+sudo pip install futures --upgrade
+sudo pip install Flask --upgrade
+sudo pip install numpy --upgrade
