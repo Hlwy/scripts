@@ -19,6 +19,9 @@ cmake -D CMAKE_BUILD_TYPE=RELEASE \
 	-D INSTALL_PYTHON_EXAMPLES=ON \
 	-D BUILD_EXAMPLES=ON ..
 
+# Wait for user to review the cmake config before continuing
+read -p "Review CMake configuration: Press Enter when ready to continue...."
+
 make -j4
 sudo make install
 

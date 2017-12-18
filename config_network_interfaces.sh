@@ -4,10 +4,6 @@ if [ "$EUID" -ne 0 ]
 	exit
 fi
 
-## Read in user defined inputs
-# read -p "Enter Name for Access Point: "  apName
-# echo "Access Point Name: $apName"
-
 read -p "Enter Static IP address assigned to Access Point: "  apIp
 # echo "Access Point IP: $apIp"
 
@@ -24,7 +20,7 @@ sudo ifdown $apIface
 # Remove any previous mention of interface
 sed -i -- "s/allow-hotplug $apIface//g" /etc/network/interfaces
 sed -i -- "s/iface $apIface inet manual//g" /etc/network/interfaces
-sed -i -- 's/    wpa-conf \/etc\/wpa_supplicant\/wpa_supplicant.conf//g' /etc/network/interfaces
+# sed -i -- 's/    wpa-conf \/etc\/wpa_supplicant\/wpa_supplicant.conf//g' /etc/network/interfaces
 
 cat >> /etc/network/interfaces <<EOF
 

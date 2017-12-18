@@ -10,3 +10,4 @@ cd ~/Libraries/RTL8188-hostapd-2.0/hostapd
 
 sudo make -j4
 sudo make install
+rm v2.0.tar.gz
