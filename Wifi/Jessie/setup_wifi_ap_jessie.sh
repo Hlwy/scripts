@@ -46,21 +46,35 @@ echo "Access Point Interface: $apIface"
 # Install TP-Link Wifi Dongle Driver
 sh ./install_rtl8188_driver.sh
 
+# Wait till user feels okay continuing
+read -p "Press Enter when ready to continue...."
+
 # Install System dependencies
 sudo apt update
 sudo apt-get install -y hostapd isc-dhcp-server
 
+# Wait till user feels okay continuing
+read -p "Press Enter when ready to continue...."
+
 # Install modified hostapd binary (Thanks to jenssegers)
 sudo sh ./install_jenssegers_hostapd.sh
+# Wait till user feels okay continuing
+read -p "Press Enter when ready to continue...."
 
 # Configure DHCP
 sudo sh ./config_dhcp.sh $apIp $apIface
+# Wait till user feels okay continuing
+read -p "Press Enter when ready to continue...."
 
 # Configure Interfaces
 sudo sh ./config_network_interfaces.sh $apIp $apIface
+# Wait till user feels okay continuing
+read -p "Press Enter when ready to continue...."
 
 # Configure Hostapd config
 sudo sh ./config_hostapd.sh $apName $apIface
+# Wait till user feels okay continuing
+read -p "Press Enter when ready to continue...."
 
 # Configure IP Routing
 sed -i -- 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/g' /etc/sysctl.conf
