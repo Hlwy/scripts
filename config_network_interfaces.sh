@@ -5,7 +5,7 @@ if [ "$EUID" -ne 0 ]
 fi
 
 ## Read in user defined inputs
-read -p "Enter Name for Access Point: "  apName
+# read -p "Enter Name for Access Point: "  apName
 # echo "Access Point Name: $apName"
 
 read -p "Enter Static IP address assigned to Access Point: "  apIp
@@ -31,7 +31,7 @@ cat >> /etc/network/interfaces <<EOF
 ## Added by setup_wifi_ap.sh script ####
 allow-hotplug $apIface
 iface $apIface inet static
-	address $ipAp
+	address $apIp
 	netmask 255.255.255.0
 
 EOF
