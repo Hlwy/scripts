@@ -3,7 +3,8 @@ echo 'Killing previous pigpio daemon...'
 sudo pkill pigpiod
 echo 'Starting pigpio daemon...'
 sudo pigpiod
-cd Swarm/RoboDev/Controllers/4WD/
-echo 'Starting robot control code....'
+echo 'Running robot control code....'
+cd /home/hunter/devel/RoboDev/Controllers/4WD/
+sleep 1s
 ./Test4WD
-echo 'Robot Running....'
+echo 'Script Ended!'
