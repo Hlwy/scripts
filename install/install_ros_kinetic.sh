@@ -26,3 +26,25 @@ source /opt/ros/kinetic/setup.bash
 
 # Joystick drivers for robot control
 sudo apt install ros-kinetic-joy ros-kinetic-joystick-drivers ros-kinetic-joy-teleop ros-kinetic-teleop-twist-joy
+# Drivers for robot navigation
+sudo apt install ros-kinetic-gmapping ros-kinetic-amcl ros-kinetic-move-base ros-kinetic-map-server
+
+#############################################
+#  Create Catkin Workspace for ROS Packages
+############################################
+
+cd $HOME
+mkdir -p catkin_ws/src
+cd catkin_ws/src
+
+############################
+#  Clone Terrasentia Repo
+############################
+
+echo Please type in your git or bitbucket username.
+read username
+
+git clone https://$username@bitbucket.org/daslab_uiuc/terrasentia-gazebo.git
+
+catkin_make
+source devel/setup.bash
