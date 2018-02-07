@@ -1,5 +1,10 @@
 #!/bin/bash
 
+#################################################
+#     Install Full ROS Kinetic for Ubuntu 16.04
+#################################################
+
+
 # Setup your sources.list
 sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
 
@@ -27,7 +32,7 @@ source /opt/ros/kinetic/setup.bash
 # Joystick drivers for robot control
 sudo apt install ros-kinetic-joy ros-kinetic-joystick-drivers ros-kinetic-joy-teleop ros-kinetic-teleop-twist-joy
 # Drivers for robot navigation
-sudo apt install ros-kinetic-gmapping ros-kinetic-amcl ros-kinetic-move-base ros-kinetic-map-server
+sudo apt install ros-kinetic-gmapping ros-kinetic-amcl ros-kinetic-move-base ros-kinetic-map-server ros-kinetic-hector-gazebo*
 
 #############################################
 #  Create Catkin Workspace for ROS Packages
@@ -46,5 +51,20 @@ read username
 
 git clone https://$username@bitbucket.org/daslab_uiuc/terrasentia-gazebo.git
 
+############################################
+#  Look for, or clone, libterra-simulator
+############################################
+
+read -p "Path to \'libterra-simulator/include\' (If you do not have it, just leave this blank): " libterraPath
+if [[ "$libterraPath" == "NULL" ]] ; then 
+  echo Making directory 'home/devel/'
+  mkdir
+  libterraPath = $HOME/devel/
+fi
+
+
+###########################
+#  	Build Everything
+###########################
 catkin_make
 source devel/setup.bash
