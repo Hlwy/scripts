@@ -1,0 +1,1 @@
+set(SWARMBOTS_DIRS ~/devel/terra-simulator/libterra-simulator/include)
