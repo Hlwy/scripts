@@ -1,9 +1,35 @@
 #!/bin/bash
 
-# Change to default network interface names - http://www.itzgeek.com/how-tos/mini-howtos/change-default-network-name-ens33-to-old-eth0-on-ubuntu-16-04.html
-sed -i -- 's/GRUB_CMDLINE_LINUX=""/GRUB_CMDLINE_LINUX="net.ifnames=0 biosdevname=0"/g' /etc/default/grub
-#sudo grub-mkconfig -o /boot/grub/grub.cfg
-sudo update-grub
-
 # Disable touchscreen - https://ubuntuforums.org/showthread.php?t=2209083&highlight=disable+touchscreen
+
+grep -r touchscreen /usr/share/X11/xorg.conf.d/10-evdev.conf
+
+Section "InputClass"
+Identifier "evdev touchscreen catchall"
+MatchIsTouchscreen "on"
+MatchDevicePath "/dev/input/event*"
+Driver "evdev"
+Option "Ignore" "on"
+EndSection
+
+
+#Disable nouveau drivers for Nvidia drivers to work
+if [ ! -f /etc/modprobe.d/blacklist-nouveau.conf ]; then
+	echo "File 'blacklist-nouveau.conf' not found!"
+	
+
+	cat >> /etc/modprobe.d/blacklist-nouveau.conf <<EOF
+
+	blacklist nouveau
+	blacklist lbm-nouveau
+	options nouveau modeset=0
+	alias nouveau off
+	alias lbm-nouveau off
+
+	EOF
+
+fi
+
+sudo update-initramfs -u
+
 
