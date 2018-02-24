@@ -25,7 +25,6 @@ if [[ $doit == "Y" || $doit == "y" ]]; then
      echo "source /opt/ros/kinetic/setup.bash" >> ~/.bashrc
      source ~/.bashrc
      source /opt/ros/kinetic/setup.bash
-<<<<<<< HEAD
 fi
 
 #################################
@@ -123,96 +122,3 @@ fi
 
 echo
 echo Done!
-
-=======
-
-     #################################
-     #     Additional Packages
-     ################################
-
-     # Joystick drivers for robot control
-     sudo apt install ros-kinetic-joy ros-kinetic-joystick-drivers ros-kinetic-joy-teleop ros-kinetic-teleop-twist-joy
-     # Drivers for robot navigation
-     sudo apt install ros-kinetic-gmapping ros-kinetic-amcl ros-kinetic-move-base ros-kinetic-map-server ros-kinetic-hector-gazebo*
-
-fi
-
-############################
-#  Clone Terrasentia Repo
-############################
-read -n1 -p "Do you need to get the terrasentia-gazebo repo? Enter (y) or (n)" doit
-echo
-if [[ $doit == "Y" || $doit == "y" ]]; then
-     echo Please type in your git or bitbucket username.
-     read username
-
-     cd $HOME
-     mkdir -p catkin_ws/src
-     cd catkin_ws/src
-
-     git clone https://$username@bitbucket.org/daslab_uiuc/terrasentia-gazebo.git
-     ros_ws = $HOME/catkin_ws
-
-     terra_gazebo_path = "$ros_ws/src/terrasentia-gazebo"
-
-else
-     echo "What is the path to your working ROS workspace?"
-     read ros_ws
-
-     terra_gazebo_path="$ros_ws/src/terrasentia-gazebo"
-fi
-echo
-echo "The terrasentia-gazebo path: $terra_gazebo_path"
-
-############################################
-#  Look for, or clone, libterra-simulator
-############################################
-read -n1 -p "Do you need to get the terra-simulator repo? Enter (y) or (n)" doit
-echo
-if [[ $doit == "Y" || $doit == "y" ]]; then
-     cd $HOME
-     mkdir devel
-     cd devel
-
-     git clone https://$username@bitbucket.org/daslab_uiuc/terra-simulator.git
-     swarm_dirs = "$HOME/devel/terra-simulator/libterra-simulator/include"
-else
-
-     echo "What is the path to the terra-simulator repo?"
-     read terra_path
-     swarm_dirs="$terra_path/terra-simulator/libterra-simulator/include"
-fi
-echo
-echo "The local terra-simulator repo path: $swarm_dirs"
-
-read -n1 -p "Do you have a SwarmbotsConfig.user.cmake file? Enter (y) or (n)" doit
-
-if [[ $doit == "Y" || $doit == "y" ]]; then
-     echo
-     echo "Good!"
-else
-     echo
-     echo "That is alright making one now...."
-
-     cd "$terra_gazebo_path/terrasentia_sensors"
-     printf "set(SWARMBOTS_DIRS $swarm_dirs)" > SwarmbotsConfig.user.cmake
-
-fi
-echo
-cat $terra_gazebo_path/terrasentia_sensors/SwarmbotsConfig.user.cmake
-
-###########################
-#  	Build Everything
-###########################
-echo
-read -n1 -p "Do you want to build your workspace? Enter (y) or (n)" doit
-
-if [[ $doit == "Y" || $doit == "y" ]]; then
-     cd $ros_ws
-     catkin_make
-     source devel/setup.bash
-fi
-
-echo
-echo Done!
->>>>>>> 8318bf4205e3bad48f737d4ba44d6c4c74ed709e
