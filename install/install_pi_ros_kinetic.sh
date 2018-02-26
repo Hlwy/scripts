@@ -20,7 +20,7 @@ if [[ $doit == "Y" || $doit == "y" ]]; then
      echo
      sleep 1
 
-     sudo apt-get install -y python-rosdep python-rosinstall-generator python-wstool python-rosinstall build-essential cmake dirmngr
+     sudo apt-get install -y python-rosdep python-rosinstall-generator python-wstool python-rosinstall build-essential cmake dirmngr libvtk5-dev libpcl-dev
 
      # Initialize rosdep
      sudo rosdep init
@@ -37,9 +37,9 @@ if [[ $doit == "Y" || $doit == "y" ]]; then
      read -p "It is recommended to have at least 2Gb of extra swap RAM (most likely from a USB Drive), to prevent errors while building. If you would like extra swap space for building please insert a USB drive with extra swap now. Press Enter to continue....." doit
      echo
 
-     read -p "Do you want to install (1) ROS-Comm or (2) ROS-Desktop? Enter (1) or (2)" doit
+     read -p "Do you want to install (y) ROS-Comm or (n) ROS-Desktop? Enter (y) or (n)" doit
      echo
-     if [[ $doit == "1"]]; then
+     if [[ $doit == "Y" || $doit == "y" ]]; then
           cd ~/ros_ws
           # Install ROS packages for ROS-comm
           echo
@@ -53,8 +53,8 @@ if [[ $doit == "Y" || $doit == "y" ]]; then
           echo
           sleep 1
           wstool init src kinetic-ros_comm-wet.rosinstall
-     elif [[ $doit == "2"]]; then
-          cd ~/ros_ws
+     else
+          
           # Install Dependencies specific for ROS-Desktop on Raspbian Jessie to prevent build errors
           echo
           echo "Downloading Raspbain Jessie ROS-Desktop specific dependencies..."
@@ -65,6 +65,7 @@ if [[ $doit == "Y" || $doit == "y" ]]; then
           echo "Downloading/Installing Collada dependencies..."
           echo
           sleep 1
+	  cd ~/ros_ws
           mkdir external_src
           cd external_src
           wget http://downloads.sourceforge.net/project/collada-dom/Collada%20DOM/Collada%20DOM%202.4/collada-dom-2.4.0.tgz
@@ -75,6 +76,17 @@ if [[ $doit == "Y" || $doit == "y" ]]; then
           cmake ..
           make -j4
           sudo make install
+
+	  mkdir -p ~/ros_ws/external_src
+	  cd ~/ros_ws/external_src
+	  wget http://sourceforge.net/projects/assimp/files/assimp-3.1/assimp-3.1.1_no_test_models.zip/download -O assimp-3.1.1_no_test_models.zip
+	  unzip assimp-3.1.1_no_test_models.zip
+	  cd assimp-3.1.1
+	  mkdir build
+	  cd build 
+	  cmake ..
+	  make -j4
+	  sudo make install
           
           # Install ROS packages for ROS-Desktop
           echo
@@ -89,10 +101,9 @@ if [[ $doit == "Y" || $doit == "y" ]]; then
           echo
           sleep 1
           wstool init src kinetic-desktop-wet.rosinstall
-
-     else
-
-
+#     else
+#          echo "ERROR: Incorrect Input!"
+#          exit1
 
      fi
 
@@ -108,14 +119,6 @@ if [[ $doit == "Y" || $doit == "y" ]]; then
      echo
      sleep 1
      sudo ./src/catkin/bin/catkin_make_isolated --install -DCMAKE_BUILD_TYPE=Release -DCMAKE_MODULE_PATH=/usr/share/cmake-3.0/Modules --install-space /opt/ros/kinetic -j2
-
-     # rosinstall_generator desktop perception_pcl --rosdistro kinetic --deps --wet-only --exclude collada_parser collada_urdf --tar > kinetic-desktop-wet.rosinstall
-     # rosinstall_generator desktop perception_pcl --rosdistro kinetic --deps --wet-only --exclude collada_parser collada_urdf --tar > kinetic-custom_ros.rosinstall
-     # wstool merge -t src kinetic-custom_ros.rosinstall
-     # wstool update -t src
-     #
-     # rosdep install --from-paths src --ignore-src --rosdistro kinetic -y -r --os=debian:jessie
-     # sudo ./src/catkin/bin/catkin_make_isolated --install -DCMAKE_BUILD_TYPE=Release -DCMAKE_MODULE_PATH=/usr/share/cmake-3.0/Modules --install-space /opt/ros/kinetic -j2
 
      # Setup bash Environment Loading
      echo
