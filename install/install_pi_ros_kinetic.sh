@@ -14,13 +14,13 @@ if [[ $doit == "Y" || $doit == "y" ]]; then
      sudo apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116
 
      # Install Desktop-Full
-     sudo apt-get update
+     sudo apt update
      echo
      echo "Downloading dependencies for Pi"
      echo
      sleep 1
 
-     sudo apt-get install -y python-rosdep python-rosinstall-generator python-wstool python-rosinstall build-essential cmake dirmngr libvtk5-dev libpcl-dev
+     sudo apt install -y python-rosdep python-rosinstall-generator python-wstool python-rosinstall build-essential cmake dirmngr libvtk5-dev libpcl-dev
 
      # Initialize rosdep
      sudo rosdep init
@@ -54,7 +54,7 @@ if [[ $doit == "Y" || $doit == "y" ]]; then
           sleep 1
           wstool init src kinetic-ros_comm-wet.rosinstall
      else
-          
+
           # Install Dependencies specific for ROS-Desktop on Raspbian Jessie to prevent build errors
           echo
           echo "Downloading Raspbain Jessie ROS-Desktop specific dependencies..."
@@ -83,11 +83,11 @@ if [[ $doit == "Y" || $doit == "y" ]]; then
 	  unzip assimp-3.1.1_no_test_models.zip
 	  cd assimp-3.1.1
 	  mkdir build
-	  cd build 
+	  cd build
 	  cmake ..
 	  make -j4
 	  sudo make install
-          
+
           # Install ROS packages for ROS-Desktop
           echo
           echo "Downloading ROS packages (ros_desktop)..."
