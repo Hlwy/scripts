@@ -5,13 +5,13 @@ if [[ $doit == "Y" || $doit == "y" ]]; then
      echo
      echo "Installing Armadillo Dependencies..."
      echo
-     sudo apt-get install -y liblapack-dev
-     sudo apt-get install -y libblas-dev
-     sudo apt-get install -y libboost-all-dev
+     sudo apt install -y liblapack-dev
+     sudo apt install -y libblas-dev
+     sudo apt install -y libboost-all-dev
      echo
      echo "Installing Armadillo..."
      echo
-     sudo apt-get install -y libarmadillo-dev
+     sudo apt install -y libarmadillo-dev
 fi
 echo
 echo "Armadillo Installed"
