@@ -18,19 +18,20 @@ cv2.imshow('Disparity', img)
 
 # histImage = np.zeros((hist_h, hist_w, 3), dtype=np.uint8)
 
-histSz = 64
 histRange = (0,256)
+dmax = np.max(img)
+histSz = dmax+1
+print(dmax)
+
 umap = np.zeros((histSz,w,1), dtype=np.uint8)
 vmap = np.zeros((h,histSz,1), dtype=np.uint8)
-tImg = np.copy(img)
 
-print(tImg.shape)
 for i in range(0,h):
     # scan = tImg[i,:]
     uscan = img[i,:]
     vscan = img[:,i]
-    print(uscan.shape)
-    print(vscan.shape)
+    # print(uscan.shape)
+    # print(vscan.shape)
     urow = cv2.calcHist([uscan],[0],None,[histSz],histRange)
     vrow = cv2.calcHist([vscan],[0],None,[histSz],histRange)
     # print(scan.ravel())
@@ -53,8 +54,8 @@ tmpw = np.reshape(vmap,(h,histSz))
 
 plt.imshow(tmp); plt.show()
 plt.imshow(tmpw); plt.show()
-cv2.imwrite("test_umap.png",umap)
-cv2.imwrite("test_vmap.png",vmap)
+cv2.imwrite("test_umap_2.png",umap)
+cv2.imwrite("test_vmap_2.png",vmap)
 while True:
     if cv2.waitKey(1) == ord('q'):
         break
