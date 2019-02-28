@@ -50,50 +50,44 @@ else: print("[INFO] Directory [%s] already exists" % (dirs))
 bridge = CvBridge()
 bag = rosbag.Bag('/home/hunter/data/rosbags/2019-02-27-16-00-27.bag')
 
-# types = []
-# topics = bag.get_type_and_topic_info()[1].keys()
-# for i in range(0,len(bag.get_type_and_topic_info()[1].values())):
-# 	types.append(bag.get_type_and_topic_info()[1].values()[i][0])
-
-ts = []
-imgs = []
-for topic, msg, t in bag.read_messages(topics=[vid_topic]):
-	t = msg.header.stamp.to_sec()
-	tmpImg = bridge.imgmsg_to_cv2(msg)
-	ts.append(t)
-	imgs.append(tmpImg)
-
-bag.close()
-
-dt_avg = 0
-count = 0
-for i in range(1,len(ts)):
-    dt = ts[i] - ts[i-1]
-    dt_avg+=dt
-    count+=1
-dt_avg = dt_avg / float(count)
+depth_cam_info = CameraInfo()
+ir_cam_info = CameraInfo()
+ir2_cam_info = CameraInfo()
+rgb_cam_info = CameraInfo()
+for topic, msg, t in bag.read_messages(topics=['/realsense/camera/depth/camera_info']):
+    depth_cam_info = msg
+    break
+# print depth_cam_info
+idx = 0
+for topic, msg, t in bag.read_messages(topics=['/gazebo/model_states']):
+    for i, name in enumerate(msg.name):
+        if(name == 'ugv1'):
+            print(name, i)
+            idx = i
+    break
 
 # ========================================================
-#				    Save Images to file
-# ========================================================
-for i, img in enumerate(imgs):
-	# cv2.cvtColor(img,cv2.COLOR_GRAY2BGR)
-	name = dirs + "/" + prefix + "_" + str(i) + ".png"
-	cv2.imwrite(name, img)
+sub_topics = [
+    '/realsense/camera/depth/camera_info',
+    '/realsense/camera/color/camera_info',
+    '/realsense/camera/ir/camera_info',
+    '/realsense/camera/ir2/camera_info',
+    '/odom',
+    '/realsense/camera/depth/image_raw',
+    '/realsense/camera/ir/image_raw',
+    '/realsense/camera/ir2/image_raw',
+    '/realsense/camera/color/image_raw',
+    '/gazebo/model_states'
+]
 
 # ========================================================
-#				    Save Video to file
-# ========================================================
-if(False):
-	fps = np.ceil(1.0 / dt_avg)
-	fourcc_string = "MJPG"
-	(h, w) = imgs[0].shape[:2]
-
-	fourcc = cv2.VideoWriter_fourcc(*fourcc_string)
-	writer = cv2.VideoWriter(output, fourcc, fps, (w,h))
-
-	for img in imgs:
-		img = cv2.cvtColor(img,cv2.COLOR_GRAY2BGR)
-		writer.write(img)
-		
-	writer.release()
+for topic, msg, t in bag.read_messages(topics=['/gazebo/model_states']):
+    orien = msg.pose[i].orientation
+    pose = msg.pose[i].position
+    quat = (orien.x, orien.y, orien.z, orien.w)
+    euler = euler_from_quaternion(quat)
+    roll = euler[0]
+    pitch = euler[1]
+    yaw = euler[2]
+    info = [pose.x,pose.y,pose.z,roll, pitch,yaw]
+    print(t,info)
